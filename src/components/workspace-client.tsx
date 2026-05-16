@@ -9,7 +9,6 @@ import type {
   ChatMessageRecord,
   EventRecord,
   NoteRecord,
-  Scope,
   TaskRecord,
   WorkspaceBootstrap,
 } from "@/lib/domain";
@@ -41,7 +40,13 @@ export function WorkspaceClient({ bootstrap }: { bootstrap: WorkspaceBootstrap }
   const [adminEditingUserId, setAdminEditingUserId] = useState<string | null>(null);
   const [selectedOwners, setSelectedOwners] = useState<Record<string, string>>({});
 
-  const accessibleScopes = viewer.isAdmin ? [] : viewer.scope === "both" ? (["work", "family"] as const) : ([viewer.scope] as const);
+  const accessibleScopes: ActiveScope[] = viewer.isAdmin
+    ? []
+    : viewer.scope === "both"
+      ? ["work", "family"]
+      : viewer.scope === "family"
+        ? ["family"]
+        : ["work"];
   const usersById = useMemo(() => Object.fromEntries(bootstrap.users.map((user) => [user.id, user])), [bootstrap.users]);
   const currentKey = bootstrap.key;
   const isKeyOwner = Boolean(currentKey && currentKey.owner_user_id === viewer.id);
