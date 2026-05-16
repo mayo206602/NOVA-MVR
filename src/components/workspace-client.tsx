@@ -1,5 +1,6 @@
 "use client";
 
+import type { Dispatch, ReactNode, SetStateAction } from "react";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { deleteRequest, patchJson, postJson } from "@/lib/api";
@@ -999,7 +1000,7 @@ function AdminView({
   keys: AccessKey[];
   users: AppUser[];
   selectedOwners: Record<string, string>;
-  setSelectedOwners: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+  setSelectedOwners: Dispatch<SetStateAction<Record<string, string>>>;
   setAdminEditingUserId: (value: string | null) => void;
   onGenerateKey: () => void;
   onAssignOwner: (payload: Record<string, unknown>) => void;
@@ -1168,7 +1169,7 @@ function AdminView({
   );
 }
 
-function Panel({ children, eyebrow, title }: { children: React.ReactNode; eyebrow: string; title: string }) {
+function Panel({ children, eyebrow, title }: { children: ReactNode; eyebrow: string; title: string }) {
   return (
     <article className="panel stack">
       <div>
